@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Ukázka klikátka
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -13,5 +13,14 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <button (click)="add($event)">Klikni HTML</button>
+
+  <ion-button color="success"
+              (click)="add($event)">Klikni IONIC
+  </ion-button>
+
+  <div>
+    <span>Kliknuto:</span>
+    <span class="ion-padding-start">{{num}}x</span>
+  </div>
 </ion-content>

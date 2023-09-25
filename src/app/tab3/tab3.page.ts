@@ -7,6 +7,13 @@ import { Component } from '@angular/core';
 })
 export class Tab3Page {
 
+  num: number = 0;
+
   constructor() {}
 
+
+  add(event: MouseEvent) {
+    this.num++;
+    // ++this.num;
+  }
 }
