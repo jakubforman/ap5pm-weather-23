@@ -13,5 +13,35 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <!-- Tlačítko pro získání dat ruční cestou -->
+  <!-- funkce fetch vloží získané data (async) do proměnné data vypsané níže -->
+  <ion-button color="danger" (click)="fetchData()">
+    Get data from API
+  </ion-button>
+
+  <!-- Vypisuji obsah, co obsahuje proměnná data -->
+  <!-- Před zmářknutím tlačítka obsahuje pouze {} - prízdný objekt, proto se níže nacházejí podmínky -->
+  <div>
+    <!-- {{data | json}} -->
+    <div *ngIf="data.weather">
+      <div *ngIf="data.weather[0]">
+        <div *ngIf="data.weather[0].main">
+          {{data.weather[0].main}}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Proměnná weather$ obsahuje Observable - což lze získav skrze .subscribe -->
+  <!-- .subscribe (co lze provést na controlleru) je zde nahrazen pomocí pipe async -->
+  <!-- Pipe async lze použít v podmínce (získá asynchroní data), jelikžo provede .subscribe na pozadí -->
+  <!-- Dokud se data z weather$ nevrací, je vraceno false, v momentě kdy se data získají ze serveru, vrátí se data -->
+  <!-- Data jsou vloženy skrze vlastnost *ngIf do proměnné let weather, kteoru mohu použít dále v kódu (pouze uvnitř podmínky) -->
+  <!-- Data vloženy do proměnné let weather, přebírají stejný datový typ. weather$: Observable<any> >>> weather: any -->
+  <!-- Pipe je vnitře podobná jako serviska - jedná se o podobné řešení -->
+  <div *ngIf="weather$ | async; let weather">
+    <!-- Jelikož že weather datový typ any mohu libovolně choti strukturou -->
+    <!-- strukturu znám skrze request získaný v prohlížeče - bez modelu si musím pamatovat kompletní strukturu -->
+    {{weather.weather[0].main}}
+  </div>
 </ion-content>
