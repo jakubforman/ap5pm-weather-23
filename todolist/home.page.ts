@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertComponent } from '@ionic';
+//import { AlertComponent } from '@ionic';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class HomePage {
   newTask:string = "";
 
 
-  constructor(public alertCTRL: AlertController) { 
+  constructor(/*public alertCTRL: AlertController*/) { 
 
 
   }
@@ -30,14 +30,17 @@ export class HomePage {
   }
 
   async showAlert(){
-    const alert = await alertCTRL.create({
+
+
+
+    /*const alert = await alertCTRL.create({
       header: "Alert",
       subHeader: "Subtitle",
       message: "Something is missing",
       buttons: ["OK"]
     });
 
-    await alert.present();
+    await alert.present();*/
   }
 
   
