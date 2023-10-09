@@ -3,6 +3,16 @@
     <ion-title>
       Tab 1
     </ion-title>
+
+    <!-- ion-button slouží jako prvek držící všechny tlačítka uvnitř ion-toolbar -->
+    <!-- [slot] je možnost nastavení zobrazení prvku v pozici v rodičovském prvku -->
+    <!-- [slot] = end - nastavení za titulkem. = start - nastavení před titulkem -->
+    <ion-buttons slot="end">
+      <!-- Tlačítkem otevřu stránku nastavení -->
+      <ion-button (click)="openSettings()">
+        <ion-icon name="cog" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

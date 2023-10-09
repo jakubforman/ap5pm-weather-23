@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
+import {Weather} from "../../models/weather.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,6 @@ export class WeatherApiService {
     //  které se mění automaticky pomocí buildu aplikace (ionic build, ionic build prod, ng build, ng build prod, ...)
     // environment.ts i environment.prod.ts musejí mít stejnou strukturu!!!
     // moderní skládání stringů v JS/TS
-    return this.http.get(`${environment.baseUrl}/weather?lat=${lat}&lon=${lng}&appid=${environment.apiToken}`);
+    return this.http.get<Weather>(`${environment.baseUrl}/weather?lat=${lat}&lon=${lng}&appid=${environment.apiToken}`);
   }
 }
