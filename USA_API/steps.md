@@ -22,6 +22,9 @@ home.page.html
 ```
 
 
+
+
+home.page.ts
 ```ts
 
 import { Component } from '@angular/core';
