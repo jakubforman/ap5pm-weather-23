@@ -1,3 +1,20 @@
+### Commands
+
+```sh
+mkdir myproject
+cd myproject
+ionic start counter blank --type=angular
+
+
+select: NgModules
+account: No
+
+cd counter
+ionic serve
+```
+
+
+
 home.page.html
 ```html
 <ion-content [fullscreen]="true">
