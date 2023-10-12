@@ -14,7 +14,10 @@ ionic serve
 ```
 
 home folder:
+
+```sh
 /Users/USERNAME/counterTesting/counterButton/src/app/home
+```
 
 
 home.page.html
