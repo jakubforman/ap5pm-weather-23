@@ -13,6 +13,8 @@ cd counter
 ionic serve
 ```
 
+home folder:
+/Users/USERNAME/counterTesting/counterButton/src/app/home
 
 
 home.page.html
