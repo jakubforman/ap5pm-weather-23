@@ -2,14 +2,14 @@
 
 
 ### 1) Create app
-```
+```sh
 ionic start sheet blank --type=angular
 cd sheet
 ionic serve
 ```
 
 ### 2) Create component
-```
+```sh
 cd sheet/src/app/home/
 ionic g c deposit-modal
 ```
