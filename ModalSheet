@@ -1,0 +1,82 @@
+## Modal sheet 
+
+
+### 1) Create app
+```
+ionic start sheet blank --type=angular
+cd sheet
+ionic serve
+```
+
+### 2) Create component
+```
+cd sheet/src/app/home/
+ionic g c deposit-modal
+```
+
+
+src/app/home/home.page.html
+
+```html
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Blank
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div id="container">
+   <h2>Balances</h2>
+
+   <h3>Location: {{ selectedLocation }}</h3>
+
+   <ion-item button *ngFor="let account of balances" (click)="openModal(account)">
+    <ion-label>
+      <h2>{{ account.name}}</h2>
+      <h2>{{ account.balance}}</h2>
+    </ion-label>
+   </ion-item>
+
+   <div *ngIf="jsonData != null">
+      <h2>We have data</h2>
+      <table class="styled">
+        <th>Name</th>
+        <th>Flag</th>
+        <tr>
+         <td>{{ jsonData[0].capital}}</td> <td>{{ jsonData[0].flag}}</td>
+       </tr>
+      </table>
+
+      <style>
+        .styled {
+          border: 1px solid green;
+          border-collapse: collapse;
+        }
+
+        th, td {
+          border: 1px solid green;
+        }
+
+      </style>
+   </div>
+
+  </div>
+</ion-content>
+
+```
+
+
+
+```ts
+
+
+
+```
