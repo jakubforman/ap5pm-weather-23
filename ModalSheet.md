@@ -205,7 +205,7 @@ export class HomePage {
 
 
 deposit modal component.ts
-```html
+```ts
 
 import { Component, Input } from '@angular/core';
 import { FormControl, Validators} from '@angular/forms';
