@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {Weather} from "../models/weather.model";
 import {ModalController} from "@ionic/angular";
 import {SettingsPage} from "../pages/settings/settings.page";
+import {PlacesService} from "../services/places/places.service";
 
 @Component({
   selector: 'app-tab1',
@@ -12,31 +13,79 @@ import {SettingsPage} from "../pages/settings/settings.page";
 })
 export class Tab1Page {
 
-  // Klasický zápis
-  // nutné přepsat data pokaždé když data získám
-  // je nutné kontrolovat existenci objektu a dalších zanořených objektů dodatečnýma podmínkama viz view
   /**
+   * Klasický zápis
+   * nutné přepsat data pokaždé když data získám
+   * je nutné kontrolovat existenci objektu a dalších zanořených objektů dodatečnýma podmínkama viz view
+   *
    * @deprecated Tento způsob není doporučován, lepší možnost je použít weather$ s kombinací s pipou async
    */
   data: any = {};
 
-  // Pokročilejší zápis
-  // využívá obserable pattern
-  // datový typ se uvádí do <...> - generika
+
+  /**
+   * Pokročilejší zápis
+   * využívá obserable pattern
+   * datový typ se uvádí do <...> - generika
+   *
+   * @deprecated Již se využívá weathers$
+   */
   weather$: Observable<Weather>;
+
+  /**
+   * Drží pole asychroných requestů (pro každé místo je jeden)
+   * Není to nejefektivnější řešení, ale pro tento případ je dostačující
+   */
+  weathers$: Observable<Weather>[] = [];
+
+  // Toto by bylo lepší řešení, avšak naše API neumí vrátit v jednom requestu pole počasí pro různá místa
+  // Příklad tohoto byl GET (z CRUD) modelu /users, který by vrátil pole uživatelů
+  // weathers$: Observable<Weather[]>;
 
   constructor(
     // Vložím servisku pro Dependency Injection (má vlastní serviska)
     // private je doporučeno pro koncové třídy,
     //  pokud by se jednalo o abstraktní třídu, nebo třídu určenou k dědění použil bych public nebo protected
     private weatherApiService: WeatherApiService,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private placesService: PlacesService // přidání servisky pro získání nastavení míst
   ) {
+    // načtení počasí
+    // načte data z placesService (využívám na více místech, proto je to funkce)
+    this.initWeather();
+
     // nastavým výstup funkce při načtení stránky (pozor, před načtením view)
     // zde se žádná data nezískávají!!! data se získají až ve view pomocí | async (pipy async)
     // až pipa async provede onen .subscribe(...), který získá data
     // zde se pouze předavají stejné datové typy getByGeo$(...): Observable<...> >>> this.weather$: Observable<any>
     this.weather$ = this.weatherApiService.getByGeo$(0, 0)
+  }
+
+
+  /**
+   * inicializace počasí
+   * není nejefektivnější, jelikož vždy resetuji pole requestů, optimalizace by ale zabrala více řádků a logiky
+   *
+   * @private
+   */
+  private initWeather() {
+    // reset pole na prázdné
+    this.weathers$ = [];
+    // získání všech places ze servisky (jsou vždy aktuální)
+    this.placesService.places.forEach(place => {
+      // kontrola jestli se má zobrazovat na domovské obrazovce nebo ne
+      if (place.homepage) {
+        // push do resetovaného pole
+        // vkládám Observable objekt (pattern)
+        // na view pak používám | async stejně jako v případě získání jedné polohy
+        // rozdíl je že to celé běží v cyklu, který je dynamický a reaguje na změny pole
+        this.weathers$.push(
+          this.weatherApiService.getByGeo$(place.latitude, place.longitude)
+        )
+        // Lepší jednorádkový zápis
+        // this.weathers$.push(this.weatherApiService.getByGeo$(place.latitude, place.longitude))
+      }
+    });
   }
 
   /**
@@ -71,12 +120,18 @@ export class Tab1Page {
     // daty je myšleno to co modal (SettingsPage) zaslal v dismiss metodě >> this.modalCtrl.dismiss({...})
     // doporučuje se využít spíše .then() místo await struktury
     // data jsou pro onWillDismiss i onDidDismiss stejná.
-    /*
-    const { data, role } = await modal.onWillDismiss();
 
-    if (role === 'confirm') {
-      this.message = `Hello, ${data}!`;
-    }
-    */
+    modal.onWillDismiss().then(_ => {
+      // Potom co je zavřen modal (před tím než se spustí animace)
+      // je znovu volán init weather, který resetuje data a znovu vše nastavuje podle aktuálního stavu
+      this.initWeather();
+    });
+
+    // alternativní zápis
+    // pozor na použití await, který ale nikdy nenastane, zbytečně se může plnit paměť zařízení a vše pak být pomalejší
+    // .then() je v tomto případě výhodnější
+    // await modal.onWillDismiss();
+    // this.initWeather();
+
   }
 }

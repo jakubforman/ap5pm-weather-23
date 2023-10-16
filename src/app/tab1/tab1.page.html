@@ -54,4 +54,28 @@
     <!-- strukturu znám skrze request získaný v prohlížeče - bez modelu si musím pamatovat kompletní strukturu -->
     {{weather.weather[0].main}}
   </div>
+
+  <!-- Ukázka vložení dat z nastavení -->
+  <div>
+    <h2>Toto jsou data z nastavení</h2>
+
+    <!-- Dynamické vycyklení pole obsahující asychroní requesty Observable objekt (pattern) -->
+    <!-- ng-container slouží pro možnost zrušení "zadivování", na DOM se nepropisuje -->
+    <ng-container *ngFor="let item$ of weathers$">
+      <!-- Souštění .subscribe a získání dat stejně jako v případě výše -->
+      <ng-container *ngIf="item$ | async; let weather">
+        <!-- Použití Ionic designu - ion-card dle oficiální dokumentace-->
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>{{weather.name}}</ion-card-title>
+            <ion-card-subtitle>{{weather.main.temp}} C</ion-card-subtitle>
+          </ion-card-header>
+
+          <ion-card-content>
+            {{weather.weather[0].description}}
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </ng-container>
+  </div>
 </ion-content>
