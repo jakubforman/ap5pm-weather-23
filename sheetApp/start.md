@@ -162,3 +162,91 @@ export class HomePageModule {}
 
 ```
 
+
+home.page.ts
+```ts
+import { Component } from '@angular/core';
+import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
+import { DepositModalComponent } from './deposit-modal/deposit-modal.component';
+
+
+class Account {
+  name: string;
+  balance: number;
+
+  constructor(name: string, balance: number){
+    this.name = name;
+    this.balance = balance;
+  }
+}
+
+
+@Component({
+  selector: 'app-home',
+  templateUrl: 'home.page.html',
+  styleUrls: ['home.page.scss'],
+})
+
+
+export class HomePage {
+  balances: Account[] = [
+    {
+      name: "Filip",
+      balance: 100000
+    },
+
+    {
+      name: "Karel",
+      balance: 80000
+    },
+
+    {
+      name: "Jana",
+      balance: 70000
+    }
+];
+
+  constructor(private modalCTRL: ModalController, private alertCTRL: AlertController) {}
+
+  async openModal(account: Account){
+   // alert(account.name);
+
+    const modal = await this.modalCTRL.create({
+      component: DepositModalComponent,
+      componentProps: {
+        name: account.name,
+        balance: account.balance
+      }
+   });
+
+   await modal.present();
+
+   // Continue
+   // Cancel/Deposited
+
+   const {data: newBalance, role} = await modal.onWillDismiss();
+
+   if (role === "deposited"){
+   // alert(newBalance);
+
+    const index = this.balances.findIndex(acc => acc.name === account.name);
+    this.balances[index].balance = newBalance;
+
+    const alert = await this.alertCTRL.create({
+      header: "Success",
+      message: "Amount has been deposited",
+      buttons: ["Okay"]
+    });
+
+    await alert.present();
+   }
+
+
+
+  }
+
+}
+
+```
+
