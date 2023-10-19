@@ -15,12 +15,12 @@ ionic g c deposit-modal
 
 
 
-sheet/src/app/home/home.page.html
-sheet/src/app/home/home.page.ts
-
+* sheet/src/app/home/home.page.html  
+* sheet/src/app/home/home.page.ts  
+  
 modal (html a ts)
-deposit-modal.component.html
-deposit-modal.component.ts
+* deposit-modal.component.html  
+* deposit-modal.component.ts  
 
 
 
