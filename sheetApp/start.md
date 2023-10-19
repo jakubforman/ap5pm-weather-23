@@ -15,13 +15,6 @@ ionic g c deposit-modal
 
 
 
-* sheet/src/app/home/home.page.html  
-* sheet/src/app/home/home.page.ts  
-  
-modal (html a ts)
-* deposit-modal.component.html  
-* deposit-modal.component.ts  
-
 
 
 ### home.page.html
@@ -66,7 +59,7 @@ modal (html a ts)
 ```
 
 
-
+home.page.ts
 
 ```ts
 import { Component } from '@angular/core';
@@ -159,111 +152,6 @@ export class HomePage {
 
 
 
-
-
-```ts
-import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { DepositModalComponent } from './deposit-modal/deposit-modal.component';
-
-
-class Account {
-  name: string;
-  balance: number;
-
-  constructor(name: string, balance: number){
-    this.name = name;
-    this.balance = balance;
-  }
-}
-
-
-@Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-})
-
-
-export class HomePage {
-  balances: Account[] = [
-    {
-      name: "Filip",
-      balance: 100000
-    },
-
-    {
-      name: "Karel",
-      balance: 80000
-    },
-
-    {
-      name: "Jana",
-      balance: 70000
-    }
-];
-
-  constructor(private modalCTRL: ModalController) {}
-
-  async openModal(account: Account){
-   // alert(account.name);
-
-    const modal = await this.modalCTRL.create({
-      component: DepositModalComponent,
-      componentProps: {
-        name: account.name,
-        balance: account.balance
-      }
-   });
-
-   await modal.present();
-
-  }
-
-}
-
-```
-
-
-```html
-
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <h2>Balances</h2>
-
-
-    <ion-list>
-      <ion-item 
-      *ngFor="let account of balances"
-      (click)="openModal(account)">
-        <ion-label>
-          <h2>{{ account.name}}</h2>
-          <h3>{{ account.balance}}</h3>
-        </ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
-
-
-
-
-</ion-content>
-
-```
 
 
 
@@ -300,92 +188,6 @@ export class HomePageModule {}
 ```
 
 
-home.page.ts
-```ts
-import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { AlertController } from '@ionic/angular';
-import { DepositModalComponent } from './deposit-modal/deposit-modal.component';
-
-
-class Account {
-  name: string;
-  balance: number;
-
-  constructor(name: string, balance: number){
-    this.name = name;
-    this.balance = balance;
-  }
-}
-
-
-@Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
-})
-
-
-export class HomePage {
-  balances: Account[] = [
-    {
-      name: "Filip",
-      balance: 100000
-    },
-
-    {
-      name: "Karel",
-      balance: 80000
-    },
-
-    {
-      name: "Jana",
-      balance: 70000
-    }
-];
-
-  constructor(private modalCTRL: ModalController, private alertCTRL: AlertController) {}
-
-  async openModal(account: Account){
-   // alert(account.name);
-
-    const modal = await this.modalCTRL.create({
-      component: DepositModalComponent,
-      componentProps: {
-        name: account.name,
-        balance: account.balance
-      }
-   });
-
-   await modal.present();
-
-   // Continue
-   // Cancel/Deposited
-
-   const {data: newBalance, role} = await modal.onWillDismiss();
-
-   if (role === "deposited"){
-   // alert(newBalance);
-
-    const index = this.balances.findIndex(acc => acc.name === account.name);
-    this.balances[index].balance = newBalance;
-
-    const alert = await this.alertCTRL.create({
-      header: "Success",
-      message: "Amount has been deposited",
-      buttons: ["Okay"]
-    });
-
-    await alert.present();
-   }
-
-
-
-  }
-
-}
-
-```
 
 
 
