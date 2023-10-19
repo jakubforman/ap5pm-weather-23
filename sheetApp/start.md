@@ -3,7 +3,7 @@
 
 V nové složce
 ```sh
-ionic start sheet blank --type= angular
+ionic start sheet blank --type=angular
 cd sheet
 ionic serve
 ```
