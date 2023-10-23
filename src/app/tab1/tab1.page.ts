@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {WeatherApiService} from "../services/weather-api/weather-api.service";
-import {Observable} from "rxjs";
+import {firstValueFrom, Observable} from "rxjs";
 import {Weather} from "../models/weather.model";
 import {ModalController} from "@ionic/angular";
 import {SettingsPage} from "../pages/settings/settings.page";
@@ -68,24 +68,32 @@ export class Tab1Page {
    *
    * @private
    */
-  private initWeather() {
+  private async initWeather() {
     // reset pole na prázdné
     this.weathers$ = [];
     // získání všech places ze servisky (jsou vždy aktuální)
-    this.placesService.places.forEach(place => {
-      // kontrola jestli se má zobrazovat na domovské obrazovce nebo ne
-      if (place.homepage) {
-        // push do resetovaného pole
-        // vkládám Observable objekt (pattern)
-        // na view pak používám | async stejně jako v případě získání jedné polohy
-        // rozdíl je že to celé běží v cyklu, který je dynamický a reaguje na změny pole
-        this.weathers$.push(
-          this.weatherApiService.getByGeo$(place.latitude, place.longitude)
-        )
-        // Lepší jednorádkový zápis
-        // this.weathers$.push(this.weatherApiService.getByGeo$(place.latitude, place.longitude))
-      }
-    });
+    // firstValueFrom = získá první (poslední přidaná) data do observable patternu tedy proměnné places$
+    const places = await firstValueFrom(this.placesService.places$)
+    // firstValueFrom je použití místo .subscribe, data chci totiž jen jedenkrát
+    // Pokud bych použil .subscribe došlo by v každém volání funkce initWeather (tedy po zavření modalu)
+    // k vytvoření nového odběratele až do n odběratelů. Následkem čeho by se přehltila pamět a aplikace by spadla.
+    // this.placesService.places$.subscribe(places => {
+      places.forEach(place => {
+        // kontrola jestli se má zobrazovat na domovské obrazovce nebo ne
+        if (place.homepage) {
+          // push do resetovaného pole
+          // vkládám Observable objekt (pattern)
+          // na view pak používám | async stejně jako v případě získání jedné polohy
+          // rozdíl je že to celé běží v cyklu, který je dynamický a reaguje na změny pole
+          this.weathers$.push(
+            this.weatherApiService.getByGeo$(place.latitude, place.longitude)
+          )
+          // Lepší jednorádkový zápis
+          // this.weathers$.push(this.weatherApiService.getByGeo$(place.latitude, place.longitude))
+        }
+     // }); //původní část z .subscribe (ukončovací)
+    })
+
   }
 
   /**
@@ -133,5 +141,15 @@ export class Tab1Page {
     // await modal.onWillDismiss();
     // this.initWeather();
 
+  }
+
+  /**
+   * Set detail weather data
+   *
+   * Nastaví detail data skrze servisku dříve, než se otevře routerLink na view
+   * @param weather
+   */
+  setDetailData(weather: Weather) {
+    this.weatherApiService.detail = weather;
   }
 }

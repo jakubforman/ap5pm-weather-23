@@ -12,7 +12,13 @@ const routes: Routes = [
   {
     path: 'settings',
     loadChildren: () => import('./pages/settings/settings.module').then( m => m.SettingsPageModule)
+  },
+  // vložení endpointu /detail s lazy loadingem
+  {
+    path: 'detail',
+    loadChildren: () => import('./pages/weather-detail/weather-detail.module').then( m => m.WeatherDetailPageModule)
   }
+
 
 ];
 @NgModule({

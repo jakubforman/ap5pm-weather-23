@@ -7,6 +7,10 @@ import {Weather} from "../../models/weather.model";
   providedIn: 'root'
 })
 export class WeatherApiService {
+  /**
+   * Pomocná proměnná pro předávání dat mezi kontrolery
+   */
+  detail?: Weather;
 
   constructor(
     // Vložím servisku pro Dependency Injection (pro komunikaci s API skrze HTTP protokol)

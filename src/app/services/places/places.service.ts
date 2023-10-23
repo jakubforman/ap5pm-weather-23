@@ -1,4 +1,6 @@
 import {Injectable} from '@angular/core';
+import {Preferences} from "@capacitor/preferences";
+import {ReplaySubject} from "rxjs";
 
 /**
  * Model place
@@ -72,12 +74,46 @@ export class PlacesService {
    * Následně pak všude kde je použito je vše plně dynamické skrze Observable pattern a vše lze propsat mezi N stránkami
    *
    * Zde je obyčejná implementace získání dat z proměnné
+   *
+   * Již je nepotřebná (použití v předchozím commitu), nechávám jen pro ukázku možného získávání dat uvnitř servisky
    */
-  get places() {
+  private get places() {
     return this.privatePlaces;
   }
 
+  /**
+   * Vlastní inicializace možného observable patternu
+   *
+   * Subject - je jich nekolik, implementaci volím, dle potřeby, viz oficiální dokumentace
+   * @private
+   */
+  private privatePlacesSubject = new ReplaySubject<Place[]>(1)
+
+  /**
+   * Drží náš vlastní observable Pattern - proměnnou
+   */
+  get places$() {
+    return this.privatePlacesSubject.asObservable();
+  }
+
+
   constructor() {
+    // zísání dat z localstorage
+    // await zde nejde, constructor musí být vždy synchronní proto je zde then
+    Preferences.get({key: 'places'}).then(data => {
+      // pokud data nejsou (třeba aplikace bězí poprvé, musíme rozhodnout)
+      if (data.value) {
+        // data mám, přeložím zpět ze stringu do pole
+        const places = JSON.parse(data.value)
+        // nastavení nových dat pro všechny odběratele (observable pattern)
+        this.privatePlacesSubject.next(places as Place[])
+      } else {
+        // data nejsou, vložím výchozí data
+        // nastavení nových dat pro všechny odběratele (observable pattern)
+        this.privatePlacesSubject.next(this.places)
+      }
+    });
+
   }
 
   /**
@@ -90,7 +126,15 @@ export class PlacesService {
    * @param index
    * @param active
    */
-  setHome(index: number, active: boolean) {
+  async setHome(index: number, active: boolean) {
+    // nastavení zobrazení místa na hlavní stránce
     this.privatePlaces[index].homepage = active;
+    // nastavení nových dat pro všechny odběratele (observable pattern)
+    this.privatePlacesSubject.next(this.privatePlaces);
+    // uložení dat do localstorage (využívá vestavěný adapter pattern pro jednotlivé platformy)
+    await Preferences.set({
+      key: 'places',
+      value: JSON.stringify(this.privatePlaces),
+    });
   }
 }

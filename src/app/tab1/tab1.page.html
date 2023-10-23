@@ -65,7 +65,9 @@
       <!-- Souštění .subscribe a získání dat stejně jako v případě výše -->
       <ng-container *ngIf="item$ | async; let weather">
         <!-- Použití Ionic designu - ion-card dle oficiální dokumentace-->
-        <ion-card>
+        <!-- Angular routerLink otevře stránku detailu > /details - endpoint je zapsaný v app.router-module.ts -->
+        <!-- Pomocí metody click (reaguje dříve jak routerLink) předám data do pomocné servisky -->
+        <ion-card routerLink="/detail" (click)="setDetailData(weather)">
           <ion-card-header>
             <ion-card-title>{{weather.name}}</ion-card-title>
             <ion-card-subtitle>{{weather.main.temp}} C</ion-card-subtitle>
