@@ -13,7 +13,7 @@ Pak bude vše fungovat a pole se budou správně zaškrtávat. :)
 
 
 
-Zde máte celý kód:
+Zde máte celý kód, příště ho doděláme:
 
 Commands  
 ionic start sheet blank --type=angular   
