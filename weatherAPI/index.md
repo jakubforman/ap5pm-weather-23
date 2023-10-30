@@ -438,16 +438,27 @@ export class DetailPage implements OnInit {
 ## places/service.ts
 
 ```ts
-import { Injectable } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { PlacesService } from '../../services/places/places.service';
 
-@Injectable({
-  providedIn: 'root'
+@Component({
+  selector: 'app-detail',
+  templateUrl: './detail.page.html',
+  styleUrls: ['./detail.page.scss'],
 })
-export class PlacesService {
-   data: any;
-   flag: any;
-  constructor() { }
+export class DetailPage implements OnInit {
+  allData: any; // new
+
+  constructor(
+    private placeService: PlacesService // new
+  ) { }
+
+  ngOnInit() {
+    this.allData = this.placeService.data[0]; // new
+  }
+
 }
+
 
 // ionic g page pages/detail root folder
 // add the detail
@@ -458,6 +469,13 @@ export class PlacesService {
 ```
 
 
+
+detailPage.html (new)
+
+```html
+
+  <h1> {{ allData.name.common }}</h1>
+```
 
 
 
