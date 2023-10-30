@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {WeatherApiService} from "../../services/weather-api/weather-api.service";
 import {Weather} from "../../models/weather.model";
 

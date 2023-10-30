@@ -1,17 +1,17 @@
 import {Component} from '@angular/core';
-import {WeatherApiService} from "../services/weather-api/weather-api.service";
+import {WeatherApiService} from "../../services/weather-api/weather-api.service";
 import {firstValueFrom, Observable} from "rxjs";
-import {Weather} from "../models/weather.model";
+import {Weather} from "../../models/weather.model";
 import {ModalController} from "@ionic/angular";
-import {SettingsPage} from "../pages/settings/settings.page";
-import {PlacesService} from "../services/places/places.service";
+import {SettingsPage} from "../settings/settings.page";
+import {PlacesService} from "../../services/places/places.service";
 
 @Component({
-  selector: 'app-tab1',
-  templateUrl: 'tab1.page.html',
-  styleUrls: ['tab1.page.scss']
+  selector: 'app-home',
+  templateUrl: 'home-page.component.html',
+  styleUrls: ['home-page.component.scss']
 })
-export class Tab1Page {
+export class HomePage {
 
   /**
    * Klasický zápis
