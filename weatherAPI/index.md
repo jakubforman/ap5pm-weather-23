@@ -405,37 +405,22 @@ export class AppModule {}
 
 
 
-### detail/page.ts
+### services/places/places.service.ts
 
 ```ts
-import { Component, OnInit } from '@angular/core';
-import { PlacesService } from '../../services/places/places.service';
+import { Injectable } from '@angular/core';
 
-@Component({
-  selector: 'app-detail',
-  templateUrl: './detail.page.html',
-  styleUrls: ['./detail.page.scss'],
+@Injectable({
+  providedIn: 'root'
 })
-
-export class DetailPage implements OnInit {
-  name = "";
-  flag = "";
-  allData: any;
-
-  constructor(
-    private placeService: PlacesService
-  ) { }
-
-  ngOnInit() {
-    this.allData = this.placeService.data[0];//this.placeService.data.Year;
-   // this.flag = this.placeService.data.flag;
-    console.log(this.allData);
-  }
+export class PlacesService {
+  data: any; // new
+  constructor() { }
 }
 ```
 
 
-## places/service.ts
+## detailPage.ts
 
 ```ts
 import { Component, OnInit } from '@angular/core';
