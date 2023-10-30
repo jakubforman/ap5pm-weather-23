@@ -455,11 +455,29 @@ export class DetailPage implements OnInit {
 
 
 
-detailPage.html (new)
+### detailPage.html (new)
 
 ```html
 
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>detail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">detail</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+
+<!----NEW----->
   <h1> {{ allData.name.common }}</h1>
+
+</ion-content>
+
 ```
 
 
