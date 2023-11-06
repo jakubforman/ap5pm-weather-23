@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseUrl: "https://api.openweathermap.org/data/2.5",
-  apiToken: "ed1d9273de342c370e1d212f70f3cb26" // TODO: musí být nahrazeno vaším API klíčem
+  apiToken: "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" // TODO: musí být nahrazeno vaším API klíčem
 };
 
 /*
