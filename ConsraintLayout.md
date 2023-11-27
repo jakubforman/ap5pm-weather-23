@@ -1,9 +1,11 @@
 3 layout types
-linearLayout - 2 dimension
-relativeLayout-2 dimension
-constraint layout-3 dimensions
+linearLayout - 2 dimension  
+relativeLayout-2 dimension  
+constraint layout-3 dimensions  
 
 
+
+### 1) Constraint layout
 ```xml
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -58,3 +60,28 @@ constraint layout-3 dimensions
         app:layout_constraintBottom_toBottomOf="parent"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>
+```
+
+
+
+### 2 - Relative layout
+
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <Button
+        android:id="@+id/buttonFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Button1"/>
+</RelativeLayout>
+
+```
