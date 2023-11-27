@@ -64,7 +64,7 @@ constraint layout-3 dimensions
 
 
 
-### 2 - Relative layout
+### 2 - Relative layout simple
 
 
 ```xml
@@ -84,4 +84,88 @@ constraint layout-3 dimensions
         android:text="Button1"/>
 </RelativeLayout>
 
+```
+
+
+## 3 - Relative layout more complex
+``` android:layout_alignParentLeft="true"``` - zarovná tlačítko doleva rodiče  
+
+U tlačítka ```btn3```
+``` android:layout_alignStart="@id/buttonFirst"``` a ```android:layout_alignEnd="@id/btn2"``` vám roztáhne tlačítko ```btn3``` po celé šířce
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <Button
+        android:id="@+id/buttonFirst"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Button1"/>
+
+
+    <Button
+        android:id="@+id/btn2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Button2"/>
+
+    <Button
+        android:id="@+id/btn3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonFirst"
+        android:layout_alignLeft="@id/buttonFirst"
+        android:layout_alignStart="@id/buttonFirst"
+        android:layout_alignRight="@id/btn2"
+        android:layout_alignEnd="@id/btn2"
+        android:text="Button3"/>
+
+    <Button
+        android:id="@+id/btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn3"
+        android:layout_alignLeft="@id/btn3"
+        android:layout_alignStart="@id/btn3"
+        android:layout_alignRight="@id/btn3"
+        android:layout_alignEnd="@id/btn3"
+        android:text="Button4"/>
+
+    <Button
+        android:id="@+id/btn5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn4"
+        android:layout_alignLeft="@id/buttonFirst"
+        android:layout_alignStart="@id/buttonFirst"
+        android:layout_alignRight="@id/buttonFirst"
+        android:layout_alignEnd="@id/buttonFirst"
+        android:text="Button5"/>
+
+
+    <Button
+        android:id="@+id/btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn4"
+        android:layout_alignLeft="@id/btn2"
+        android:layout_alignStart="@id/btn2"
+        android:layout_alignRight="@id/btn2"
+        android:layout_alignEnd="@id/btn2"
+        android:text="Button6"/>
+
+
+
+
+
+</RelativeLayout>
 ```
