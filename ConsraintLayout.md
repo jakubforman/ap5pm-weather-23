@@ -1,4 +1,10 @@
+3 layout types
+linearLayout - 2 dimension
+relativeLayout-2 dimension
+constraint layout-3 dimensions
 
+
+```xml
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
