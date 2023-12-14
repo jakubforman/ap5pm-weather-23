@@ -11,7 +11,7 @@ manifests/android_manifest.xml
         android:allowBackup="true"
 ```
 
-
+mainActivity.kt
 ```kotlin
 package com.example.nicecompose
 import android.os.Bundle
